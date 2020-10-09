@@ -1,0 +1,9 @@
+@import 'theme'
+
+@function map-breakpoint($breakpointName)
+  @if map-has-key($breakpoints, $breakpointName)
+    @return inspect(map-get($breakpoints, $breakpointName))
+
+=media-wider-than($breakpointName)
+  @media only screen and (min-width: #{map-breakpoint($breakpointName)})
+    @content
