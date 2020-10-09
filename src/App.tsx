@@ -1,7 +1,10 @@
 import React from 'react';
 
+import Dashboard from 'page/Dashboard';
+
 const App: React.FC<{}> = () => {
-  return <h1>Create React App Skeleton</h1>;
+  // here we could add other pages (and also route handling with react-router)
+  return <Dashboard />;
 };
 
 export default App;

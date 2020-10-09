@@ -1,0 +1,55 @@
+@import 'styles/_mixin.sass'
+
+=kpi-gradient($startColor, $endColor)
+  background: $endColor
+  background: linear-gradient(90deg, $startColor 0%, $endColor 100%)
+
+.root
+  position: relative
+  color: $color-kpi
+  overflow: hidden
+  padding: 40px 25px
+  border-radius: 3px
+  min-width: 200px
+
+  // create two circles for the KPI design by using pseudo-elements
+  &::before,
+  &::after
+    content: ''
+    position: absolute
+    background: #ffffff
+    opacity: 0.4
+    border-radius: 50%
+
+  &::before
+    top: -20px
+    right: -40px
+    width: 120px
+    padding-bottom: 120px
+
+  &::after
+    bottom: -60px
+    right: -40px
+    width: 180px
+    padding-bottom: 180px
+
+.red
+  +kpi-gradient(#E8BF99, #D17372)
+
+.blue
+  +kpi-gradient(#A1C0F2, #4A6FB9)
+
+.green
+  +kpi-gradient(#A9D4D0, #4DB897)
+
+.title
+  font-size: 20px
+  padding-bottom: 16px
+
+.currentPeriod
+  font-size: 30px
+  font-weight: bold
+  padding-bottom: 16px
+
+.lastPeriod
+  font-size: 20px

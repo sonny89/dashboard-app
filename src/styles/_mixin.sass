@@ -1,9 +1,12 @@
+// we can use these sass functions and mixins in any component by importing this file
+
 @import 'theme'
 
 @function map-breakpoint($breakpointName)
   @if map-has-key($breakpoints, $breakpointName)
     @return inspect(map-get($breakpoints, $breakpointName))
 
+// we can use the breakpoint names instead of the numbers (this way we can easily change a breakpoint value)
 =media-wider-than($breakpointName)
   @media only screen and (min-width: #{map-breakpoint($breakpointName)})
     @content

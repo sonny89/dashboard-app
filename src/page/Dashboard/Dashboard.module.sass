@@ -1,0 +1,28 @@
+@import 'styles/_mixin.sass'
+
+.kpiContainer
+  margin: 0 auto
+  padding: 40px 20px
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+
+.kpiCard
+  box-sizing: border-box
+  width: 100%
+  margin-bottom: 20px
+
++media-wider-than(xs)
+  .kpiContainer
+    padding: 40px
+
++media-wider-than(sm)
+  .kpiContainer
+    max-width: 1000px
+
+  .kpiCard
+    width: 30%
+
++media-wider-than(lg)
+  .kpiContainer
+    max-width: 1200px
