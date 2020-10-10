@@ -3,22 +3,27 @@ import classnames from 'classnames';
 
 import style from './Select.module.sass';
 
-export interface SelectItem {
+// use generics <T> - this way we can use here any data
+export interface SelectItem<T> {
   id: string;
   label: string;
-  data: any;
+  data: T;
 }
 
-export interface Props {
-  items: SelectItem[];
+export interface Props<T> {
+  placeholder: string;
+  items: SelectItem<T>[];
+  selected?: SelectItem<T>;
+  onSelect: (item: SelectItem<T>) => any;
+  className?: string;
 }
 
 // use timeout to prevent closing the list before the onClick is triggered on a button
 let timeoutID = 0;
 
-const Select: React.FC<Props> = ({ items }) => {
+const Select: React.FC<Props<any>> = <T,>({ placeholder, items, selected, onSelect, className }: Props<T>) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<any>();
+  const [selectedItem, setSelectedItem] = useState<SelectItem<T> | null>(selected || null);
 
   const onFocus = () => {
     timeoutID && window.clearTimeout(timeoutID);
@@ -31,15 +36,21 @@ const Select: React.FC<Props> = ({ items }) => {
     }, 0);
   };
 
-  const handleItemClick = (item: SelectItem) => {
-    setSelectedItem(item);
+  const handleItemClick = (item: SelectItem<T>) => {
+    setSelectedItem(item); // set the selected item to display the correct label within this component
+    onSelect(item); // call the provided onSelect method to be able to use the selected item outside of the Select component
     setOpen(false);
   };
 
   return (
-    <div tabIndex={0} onFocus={onFocus} onBlur={onBlur} className={classnames(style.root, open && style.open)}>
+    <div
+      tabIndex={0}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      className={classnames(style.root, open && style.open, className)}
+    >
       <div className={style.select}>
-        <span>{open || !selectedItem?.label ? 'Select time unit' : selectedItem.label}</span>
+        <span>{open || !selectedItem?.label ? placeholder : selectedItem.label}</span>
         <span className={style.chevron}>&#9660;</span>
       </div>
       <ul className={style.list}>
