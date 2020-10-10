@@ -1,8 +1,10 @@
 @import 'styles/_mixin.sass'
 
-.kpiContainer
+.root
   margin: 0 auto
   padding: 40px 20px
+
+.kpiContainer
   display: flex
   justify-content: space-between
   flex-wrap: wrap
@@ -13,16 +15,16 @@
   margin-bottom: 20px
 
 +media-wider-than(xs)
-  .kpiContainer
+  .root
     padding: 40px
 
 +media-wider-than(sm)
-  .kpiContainer
+  .root
     max-width: 1000px
 
   .kpiCard
     width: 30%
 
 +media-wider-than(lg)
-  .kpiContainer
+  .root
     max-width: 1200px
