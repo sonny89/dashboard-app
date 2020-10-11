@@ -1,46 +1,53 @@
 import React, { useEffect, useState } from 'react';
 
-import { TimeUnitData } from 'domain/timeUnit';
+import { TimeUnitOption } from 'domain/timeUnit';
+import { SortUnitOption } from 'domain/sortUnit';
 import { KPI } from 'domain/kpi';
 import { Company } from 'domain/company';
 
 import { getKPI } from 'service/kpi';
 import { getCompanies } from 'service/company';
 
-import KPICard, { KPIType } from 'component/KPICard';
-import { SelectItem } from 'component/Select';
 import TimeUnitSelect, { timeUnitOptions } from 'component/TimeUnitSelect';
+import SortUnitSelect, { sortUnitOptions } from 'component/SortUnitSelect';
+import KPICard, { KPIType } from 'component/KPICard';
 import Table from 'component/Table';
 
 import style from './Dashboard.module.sass';
 
 const initialTimeUnitOption = timeUnitOptions[0];
+const initialSortUnitOption = sortUnitOptions[0];
 
 const Dashboard: React.FC<{}> = () => {
-  const [selectedTimeUnitData, setSelectedTimeUnitData] = useState<TimeUnitData>(initialTimeUnitOption.data);
+  const [selectedTimeUnitOption, setSelectedTimeUnitOption] = useState<TimeUnitOption>(initialTimeUnitOption);
   const [kpi, setKpi] = useState<KPI>();
 
+  const [selectedSortUnitOption, setSelectedSortUnitOption] = useState<SortUnitOption>(initialSortUnitOption);
   const [companies, setCompanies] = useState<Company[]>();
 
   useEffect(() => {
-    getKPI(selectedTimeUnitData).then((kpiResponseData) => {
+    getKPI(selectedTimeUnitOption.data).then((kpiResponseData) => {
       setKpi(kpiResponseData);
     });
-  }, [selectedTimeUnitData]);
+  }, [selectedTimeUnitOption]);
 
   useEffect(() => {
-    getCompanies({ sortUnit: 'segment', ascending: true }).then((companiesResponseData) => {
+    getCompanies(selectedSortUnitOption.data).then((companiesResponseData) => {
       setCompanies(companiesResponseData);
     });
-  }, []);
+  }, [selectedSortUnitOption]);
 
-  const onTimeUnitSelect = (item: SelectItem<TimeUnitData>) => {
-    setSelectedTimeUnitData(item.data);
+  const onTimeUnitSelect = (item: TimeUnitOption) => {
+    setSelectedTimeUnitOption(item);
+  };
+
+  const onSortUnitSelect = (item: SortUnitOption) => {
+    setSelectedSortUnitOption(item);
   };
 
   const renderTableRow = ({ id, name, segment, contract, renewals, npsAvg, npsLast, npsFirst }: Company) => {
     return (
-      <Table.Row>
+      <Table.Row key={id}>
         <Table.Cell>{id}</Table.Cell>
         <Table.Cell>{name}</Table.Cell>
         <Table.Cell>{segment}</Table.Cell>
@@ -57,7 +64,7 @@ const Dashboard: React.FC<{}> = () => {
     <div className={style.root}>
       <div className={style.filterContainer}>
         <div className={style.label}>Filter by</div>
-        <TimeUnitSelect selected={initialTimeUnitOption} onSelect={onTimeUnitSelect} className={style.select} />
+        <TimeUnitSelect selected={selectedTimeUnitOption} onSelect={onTimeUnitSelect} className={style.select} />
       </div>
 
       {kpi && (
@@ -85,6 +92,11 @@ const Dashboard: React.FC<{}> = () => {
           />
         </div>
       )}
+
+      <div className={style.filterContainer}>
+        <div className={style.label}>Sort by</div>
+        <SortUnitSelect selected={selectedSortUnitOption} onSelect={onSortUnitSelect} className={style.select} />
+      </div>
 
       {companies && (
         <Table

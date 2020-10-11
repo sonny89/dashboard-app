@@ -49,7 +49,8 @@ export const companies: Company[] = [
 
 // generate sorted mock Companies response
 export const getCompaniesBySortUnit: (sortUnitData: SortUnitData) => CompaniesResponse = ({ sortUnit, ascending }) => {
-  companies.sort((a, b) => {
+  const companiesCopy = [...companies];
+  companiesCopy.sort((a, b) => {
     if (ascending) {
       if (a[sortUnit] < b[sortUnit]) {
         return -1;
@@ -61,5 +62,5 @@ export const getCompaniesBySortUnit: (sortUnitData: SortUnitData) => CompaniesRe
     }
     return -1;
   });
-  return { data: companies, status: 'ok' };
+  return { data: companiesCopy, status: 'ok' };
 };
