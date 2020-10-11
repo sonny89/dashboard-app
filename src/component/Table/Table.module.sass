@@ -1,0 +1,34 @@
+@import 'styles/_mixin.sass'
+
+$table-min-width: 800px
+
+.root
+  display: flex
+  flex-direction: column
+  overflow-x: scroll
+  border: 1px solid $border-color
+  border-radius: 5px
+  padding: 0 20px
+  color: $primary-font-color
+
+.header,
+.row
+  display: flex
+  min-width: $table-min-width
+  align-items: center
+  height: 40px
+
+.header
+  height: 40px
+  border-bottom: 1px solid $border-color
+  font-weight: bold
+
+.row
+  border-bottom: 1px solid $border-color
+
+  &:last-child
+    border-bottom: 0
+
+.cell
+  flex-basis: 0
+  flex-grow: 1
