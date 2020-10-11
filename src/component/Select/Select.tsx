@@ -19,6 +19,7 @@ export interface Props<T> {
 }
 
 // use timeout to prevent closing the list before the onClick is triggered on a button
+// instead of this would be better/easier to use the react-onclickoutside library
 let timeoutID = 0;
 
 const Select: React.FC<Props<any>> = <T,>({ placeholder, items, selected, onSelect, className }: Props<T>) => {

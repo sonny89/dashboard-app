@@ -25,26 +25,31 @@ const Dashboard: React.FC<{}> = () => {
   const [selectedSortUnitOption, setSelectedSortUnitOption] = useState<SortUnitOption>(initialSortUnitOption);
   const [companies, setCompanies] = useState<Company[]>();
 
+  // get the new KPI data and set it to the state
   useEffect(() => {
     getKPI(selectedTimeUnitOption.data).then((kpiResponseData) => {
       setKpi(kpiResponseData);
     });
   }, [selectedTimeUnitOption]);
 
+  // get the new Companies data and set it to the state
   useEffect(() => {
     getCompanies(selectedSortUnitOption.data).then((companiesResponseData) => {
       setCompanies(companiesResponseData);
     });
   }, [selectedSortUnitOption]);
 
+  // set the selected Time unit option
   const onTimeUnitSelect = (item: TimeUnitOption) => {
     setSelectedTimeUnitOption(item);
   };
 
+  // set the selected Sort unit option
   const onSortUnitSelect = (item: SortUnitOption) => {
     setSelectedSortUnitOption(item);
   };
 
+  // renders the table row with the provided Company data
   const renderTableRow = ({ id, name, segment, contract, renewals, npsAvg, npsLast, npsFirst }: Company) => {
     return (
       <Table.Row key={id}>
